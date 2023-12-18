@@ -63,23 +63,28 @@ try {
             <br><br>
             <div class="bg-dark rounded-5 bg-opacity-25 p-4 position-relative">
               <img class="rounded-circle object-fit-cover" height="150" width="150" src="../pictures/<?php echo !empty($user['picture']) ? $user['picture'] : '../contents/profile.jpg'; ?>" alt="Profile Image">
-              <h2 class="mt-3 fw-bold text-shadow"><?php echo $user['username']; ?></h2>
-              <p class="fw-medium text-shadow small"><?php echo $user['region'] . ' - ' . ($user['born'] ? date('Y/m/d', strtotime($user['born'])) : 'No birthdate available'); ?></p>
+              <h2 class="mt-3 fw-bold text-shadow"><?php echo isset($user['username']) ? $user['username'] : 'User did not exist.'; ?></h2>
+              <p class="fw-medium text-shadow small"><?php echo isset($user['region']) ? $user['region'] . ' - ' . ($user['born'] ? date('Y/m/d', strtotime($user['born'])) : 'No birthdate available') : 'No data available'; ?></p>
               <?php
-                // Get the full description
-                $fullDesc = $user['bio'];
+                if (isset($user['bio'])) {
+                  // Get the full description
+                  $fullDesc = $user['bio'];
 
-                // Limit the description to 120 characters (words)
-                $limitedDesc = substr($user['bio'], 0, 100);
+                  // Limit the description to 120 characters (words)
+                  $limitedDesc = substr($user['bio'], 0, 100);
 
-                // Check if the full description is longer than the limited description
-                if (strlen($user['bio']) > strlen($limitedDesc)) {
-                  // If it is, add a "full view" link
-                  $limitedDesc .= '... <button type="button" class="btn btn-sm fw-medium border-0" data-bs-toggle="modal" data-bs-target="#bioData">read more</button>';
+                  // Check if the full description is longer than the limited description
+                  if (strlen($user['bio']) > strlen($limitedDesc)) {
+                    // If it is, add a "full view" link
+                    $limitedDesc .= '... <button type="button" class="btn btn-sm fw-medium border-0" data-bs-toggle="modal" data-bs-target="#bioData">read more</button>';
+                  }
+                } else {
+                  // Handle the case where $user['bio'] is not set
+                  $fullDesc = $limitedDesc = "Bio not available";
                 }
               ?>
               <p class="fw-medium mb-4 text-shadow"><?php echo $limitedDesc; ?></p>
-              <button class="btn border-0 position-absolute top-0 end-0 m-2" onclick="shareArtist(<?php echo $user['id']; ?>)"><i class="fa-solid fa-share-nodes fs-3"></i></button>
+              <button class="btn border-0 position-absolute top-0 end-0 m-2" onclick="shareArtist(<?php echo $user['id']; ?>, '<?php echo $user['username']; ?>')"><i class="fa-solid fa-share-nodes fs-3"></i></button>
               <a class="btn border-0 position-absolute top-0 start-0 m-2" href="../settings/"><i class="fa-solid fa-gear fs-3"></i></a>
               <div>
                 <?php
@@ -116,12 +121,13 @@ try {
                     // Add more social media links and their icons as needed
                   ];
 
-                  // Loop through the links and display them if they exist
                   for ($i = 1; $i <= 10; $i++) {
                     $linkKey = 'link' . $i;
-                    $link = $user[$linkKey];
-
-                    if (!empty($link)) {
+                    $link = isset($user[$linkKey]) ? $user[$linkKey] : null;
+    
+                    $userId = isset($user['id']) ? $user['id'] : null;
+                    
+                    if (!empty($link) && !empty($userId)) {
                       // Prefix 'https://' if missing
                       $url = strpos($link, 'http') === false ? 'https://' . $link : $link;
 
@@ -194,15 +200,16 @@ try {
       }
     </style>
     <script>
-      function shareArtist(userId) {
+      function shareArtist(userId, username) {
         // Compose the share URL
         var shareUrl = '../users/?id=' + userId;
 
         // Check if the Share API is supported by the browser
         if (navigator.share) {
           navigator.share({
-          url: shareUrl
-        })
+            url: shareUrl,
+            title: username + '\'s Profile'
+          })
           .then(() => console.log('Shared successfully.'))
           .catch((error) => console.error('Error sharing:', error));
         } else {
