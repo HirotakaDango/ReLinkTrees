@@ -57,10 +57,11 @@ try {
       <div class="container h-100">
         <div class="d-flex justify-content-center align-items-center h-100">
           <div class="hide-scrollbar text-center w-100 overflow-auto h-100" style="max-width: 305px;">
-            <br><br><br>
+            <br><br>
             <div class="bg-dark rounded-5 bg-opacity-25 p-4 position-relative">
               <img class="rounded-circle object-fit-cover" height="150" width="150" src="../pictures/<?php echo !empty($user['picture']) ? $user['picture'] : 'profile.jpg'; ?>" alt="Profile Image">
               <h2 class="mt-3 fw-bold text-shadow"><?php echo $user['username']; ?></h2>
+              <p class="fw-medium text-shadow small"><?php echo $user['region']; ?> - <?php echo date('Y/m/d', strtotime($user['born'])); ?></p>
               <p class="fw-medium mb-4 text-shadow"><?php echo $user['bio']; ?></p>
               <button class="btn border-0 position-absolute top-0 end-0 m-2" onclick="sharePage()"><i class="fa-solid fa-share-nodes fs-3"></i></button>
               <div>
