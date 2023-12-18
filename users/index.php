@@ -4,8 +4,8 @@ $userID = isset($_GET['id']) ? $_GET['id'] : null;
 
 // Check if the user ID is provided
 if (!$userID) {
-  // Handle the case where no user ID is provided, redirect or display an error as needed
-  echo "User ID not provided";
+  // Handle the case where no user ID is provided, redirect to ../index.php
+  header("Location:../index.php");
   exit();
 }
 
@@ -60,19 +60,24 @@ try {
             <br><br>
             <div class="bg-dark rounded-5 bg-opacity-25 p-4 position-relative">
               <img class="rounded-circle object-fit-cover" height="150" width="150" src="../pictures/<?php echo !empty($user['picture']) ? $user['picture'] : '../contents/profile.jpg'; ?>" alt="Profile Image">
-              <h2 class="mt-3 fw-bold text-shadow"><?php echo $user['username']; ?></h2>
-              <p class="fw-medium text-shadow small"><?php echo $user['region'] . ' - ' . ($user['born'] ? date('Y/m/d', strtotime($user['born'])) : 'No birthdate available'); ?></p>
+              <h2 class="mt-3 fw-bold text-shadow"><?php echo isset($user['username']) ? $user['username'] : 'User did not exist.'; ?></h2>
+              <p class="fw-medium text-shadow small"><?php echo isset($user['region']) ? $user['region'] . ' - ' . ($user['born'] ? date('Y/m/d', strtotime($user['born'])) : 'No birthdate available') : 'No data available'; ?></p>
               <?php
-                // Get the full description
-                $fullDesc = $user['bio'];
+                if (isset($user['bio'])) {
+                  // Get the full description
+                  $fullDesc = $user['bio'];
 
-                // Limit the description to 120 characters (words)
-                $limitedDesc = substr($user['bio'], 0, 100);
+                  // Limit the description to 120 characters (words)
+                  $limitedDesc = substr($user['bio'], 0, 100);
 
-                // Check if the full description is longer than the limited description
-                if (strlen($user['bio']) > strlen($limitedDesc)) {
-                  // If it is, add a "full view" link
-                  $limitedDesc .= '... <button type="button" class="btn btn-sm fw-medium border-0" data-bs-toggle="modal" data-bs-target="#bioData">read more</button>';
+                  // Check if the full description is longer than the limited description
+                  if (strlen($user['bio']) > strlen($limitedDesc)) {
+                    // If it is, add a "full view" link
+                    $limitedDesc .= '... <button type="button" class="btn btn-sm fw-medium border-0" data-bs-toggle="modal" data-bs-target="#bioData">read more</button>';
+                  }
+                } else {
+                  // Handle the case where $user['bio'] is not set
+                  $fullDesc = $limitedDesc = "Bio not available";
                 }
               ?>
               <p class="fw-medium mb-4 text-shadow"><?php echo $limitedDesc; ?></p>
@@ -111,13 +116,14 @@ try {
                     'medium' => 'fa-brands fa-medium',
                     // Add more social media links and their icons as needed
                   ];
-
-                  // Loop through the links and display them if they exist
+                  
                   for ($i = 1; $i <= 10; $i++) {
                     $linkKey = 'link' . $i;
-                    $link = $user[$linkKey];
-
-                    if (!empty($link)) {
+                    $link = isset($user[$linkKey]) ? $user[$linkKey] : null;
+    
+                    $userId = isset($user['id']) ? $user['id'] : null;
+                    
+                    if (!empty($link) && !empty($userId)) {
                       // Prefix 'https://' if missing
                       $url = strpos($link, 'http') === false ? 'https://' . $link : $link;
 
