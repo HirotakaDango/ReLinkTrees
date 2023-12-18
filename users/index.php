@@ -122,9 +122,22 @@ try {
                       $url = strpos($link, 'http') === false ? 'https://' . $link : $link;
 
                       // Extract social media name from the link using string manipulation
-                      $socialMediaName = strtolower(preg_replace('#^https?://(?:www\.)?|\.([a-z]{2,})/?$#', '', $url));
+                      $socialMediaName = strtolower(preg_replace('#^https?://(?:www\.)?([a-z]+)\.com/.*$#', '$1', $url));
 
-                      $socialMediaDisplayName = ucfirst($socialMediaName); // Capitalize the first letter
+                      // Customize display names for specific social media platforms
+                      switch ($socialMediaName) {
+                        case 'github':
+                          $socialMediaDisplayName = 'GitHub';
+                          break;
+                        case 'gitlab':
+                          $socialMediaDisplayName = 'GitLab';
+                          break;
+                        case 'whatsapp':
+                          $socialMediaDisplayName = 'WhatsApp';
+                          break;
+                        default:
+                          $socialMediaDisplayName = ucfirst($socialMediaName); // Capitalize the first letter for other platforms
+                      }
 
                       $socialMediaIconClass = isset($socialMediaIcons[$socialMediaName]) ? $socialMediaIcons[$socialMediaName] : 'fab fa-globe'; // Default icon for unknown social media
 
