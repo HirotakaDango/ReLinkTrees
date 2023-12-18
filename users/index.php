@@ -59,10 +59,23 @@ try {
           <div class="hide-scrollbar text-center w-100 overflow-auto h-100" style="max-width: 305px;">
             <br><br>
             <div class="bg-dark rounded-5 bg-opacity-25 p-4 position-relative">
-              <img class="rounded-circle object-fit-cover" height="150" width="150" src="../pictures/<?php echo !empty($user['picture']) ? $user['picture'] : 'profile.jpg'; ?>" alt="Profile Image">
+              <img class="rounded-circle object-fit-cover" height="150" width="150" src="../pictures/<?php echo !empty($user['picture']) ? $user['picture'] : '../contents/profile.jpg'; ?>" alt="Profile Image">
               <h2 class="mt-3 fw-bold text-shadow"><?php echo $user['username']; ?></h2>
-              <p class="fw-medium text-shadow small"><?php echo $user['region']; ?> - <?php echo date('Y/m/d', strtotime($user['born'])); ?></p>
-              <p class="fw-medium mb-4 text-shadow"><?php echo $user['bio']; ?></p>
+              <p class="fw-medium text-shadow small"><?php echo $user['region'] . ' - ' . ($user['born'] ? date('Y/m/d', strtotime($user['born'])) : 'No birthdate available'); ?></p>
+              <?php
+                // Get the full description
+                $fullDesc = $user['bio'];
+
+                // Limit the description to 120 characters (words)
+                $limitedDesc = substr($user['bio'], 0, 100);
+
+                // Check if the full description is longer than the limited description
+                if (strlen($user['bio']) > strlen($limitedDesc)) {
+                  // If it is, add a "full view" link
+                  $limitedDesc .= '... <button type="button" class="btn btn-sm fw-medium border-0" data-bs-toggle="modal" data-bs-target="#bioData">read more</button>';
+                }
+              ?>
+              <p class="fw-medium mb-4 text-shadow"><?php echo $limitedDesc; ?></p>
               <button class="btn border-0 position-absolute top-0 end-0 m-2" onclick="sharePage()"><i class="fa-solid fa-share-nodes fs-3"></i></button>
               <div>
                 <?php
@@ -122,6 +135,34 @@ try {
               </div>
             </div>
             <br><br><br>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="bioData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content fw-medium rounded-4 border-0 container-fluid" style="max-width: 305px;">
+          <div class="modal-header border-0">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p style="white-space: break-spaces; overflow: hidden; margin-top: -75px;">
+              <?php
+                $bioText = isset($user['bio']) ? $user['bio'] : '';
+
+                if (!empty($bioText)) {
+                  $paragraphs = explode("\n", $bioText);
+
+                  foreach ($paragraphs as $index => $paragraph) {
+                    echo "<p style=\"white-space: break-spaces; overflow: hidden;\">";
+                    echo preg_replace('/\bhttps?:\/\/\S+/i', '<a href="$0" target="_blank">$0</a>', strip_tags($paragraph));
+                    echo "</p>";
+                  }
+                } else {
+                  echo "Sorry, no text...";
+                }
+              ?>
+            </p>
           </div>
         </div>
       </div>
