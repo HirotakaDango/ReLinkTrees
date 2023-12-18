@@ -1,7 +1,6 @@
 <?php
 $db = new PDO('sqlite:database-03fdhgh732fhdff23fhdhd492/database');
 $db->exec('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, email TEXT, password TEXT, picture TEXT, background TEXT, link1 TEXT, link2 TEXT, link3 TEXT, link4 TEXT, link5 TEXT, link6 TEXT, link7 TEXT, link8 TEXT, link9 TEXT, link10 TEXT, bio TEXT, born TEXT, region TEXT)');
-echo "Table 'users' created successfully.";
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +14,7 @@ echo "Table 'users' created successfully.";
   </head>
   <body>
     <div class="vh-100 position-fixed top-0 start-0 w-100 h-100" style="background-image: url('/contents/background.jpg'); background-size: cover; background-repeat: no-repeat;">
-      <div id="login-form" class="container position-absolute start-50 top-50 translate-middle bg-dark rounded-5 p-3 bg-opacity-50" style="max-width: 400px;">
+      <div id="login-form" class="container position-absolute start-50 top-50 translate-middle bg-dark rounded-5 p-3 bg-opacity-50" style="max-width: 315px;">
         <h1 class="fw-bold text-center mb-5 mt-3">Login</h1>
         <div class="modal-body p-4 pt-0">
           <form class="" action="session_code.php" method="post">
@@ -32,7 +31,7 @@ echo "Table 'users' created successfully.";
           </form>
         </div>
       </div>
-      <div id="register-form" class="container position-absolute start-50 top-50 translate-middle bg-dark rounded-5 p-3 bg-opacity-50" style="max-width: 400px; display: none;">
+      <div id="register-form" class="container position-absolute start-50 top-50 translate-middle bg-dark rounded-5 p-3 bg-opacity-50" style="max-width: 315px; display: none;">
         <h1 class="fw-bold text-center mb-5 mt-3">Register</h1>
         <div class="modal-body p-4 pt-0">
           <form class="" action="session_code.php" method="post">
