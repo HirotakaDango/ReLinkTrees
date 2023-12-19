@@ -80,7 +80,7 @@ try {
                   $fullDesc = $limitedDesc = "Bio not available";
                 }
               ?>
-              <p class="fw-medium mb-4 text-shadow"><?php echo $limitedDesc; ?></p>
+              <p class="fw-medium text-shadow"><?php echo $limitedDesc; ?></p>
               <button class="btn border-0 position-absolute top-0 end-0 m-2" onclick="sharePage()"><i class="fa-solid fa-share-nodes fs-3"></i></button>
               <div>
                 <?php
@@ -147,7 +147,7 @@ try {
 
                       $socialMediaIconClass = isset($socialMediaIcons[$socialMediaName]) ? $socialMediaIcons[$socialMediaName] : 'fab fa-globe'; // Default icon for unknown social media
 
-                      echo "<a href=\"$url\" target=\"_blank\" class=\"p-2 btn btn-dark opacity-75 border border-dark-subtle border-3 fw-bold w-100 rounded-pill mb-2\"><i class=\"$socialMediaIconClass fs-5\"></i> $socialMediaDisplayName</a>";
+                      echo "<a href=\"$url\" target=\"_blank\" class=\"p-2 btn btn-dark opacity-75 border border-dark-subtle border-3 fw-bold w-100 rounded-pill mt-2\"><i class=\"$socialMediaIconClass fs-5\"></i> $socialMediaDisplayName</a>";
                     }
                   }
                 ?>
