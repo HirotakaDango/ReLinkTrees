@@ -110,6 +110,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ':email' => $_SESSION['email']
   ]);
 
+  // Handle delete request
+  if (isset($_POST['delete_account'])) {
+    // Delete profile picture
+    $profilePicture = $user['picture'];
+    if (!empty($profilePicture) && file_exists('../pictures/' . $profilePicture)) {
+      unlink('../pictures/' . $profilePicture);
+    }
+
+    // Delete background image
+    $backgroundImage = $user['background'];
+    if (!empty($backgroundImage) && file_exists('../backgrounds/' . $backgroundImage)) {
+      unlink('../backgrounds/' . $backgroundImage);
+    }
+
+    // Delete user from the database
+    $deleteQuery = $db->prepare('DELETE FROM users WHERE email = :email');
+    $deleteQuery->execute([':email' => $_SESSION['email']]);
+
+    // Logout the user
+    session_destroy();
+
+    // Redirect to the home page or any other desired location
+    header("Location: /");
+    exit();
+  }
+  
   // Redirect to prevent form resubmission
   header("Location: /settings/");
   exit();
@@ -146,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="mb-2 row">
           <label for="bio" class="col-md-4 col-form-label text-nowrap fw-medium">Bio :</label>
           <div class="col-md-8">
-            <textarea name="bio" class="form-control fw-bold text-white vh-100" oninput="stripHtmlTags(this)"><?php echo strip_tags($user['bio']); ?></textarea>
+            <textarea name="bio" class="form-control fw-bold text-white vh-100" oninput="stripHtmlTags(this)"><?php echo $user['bio'] !== null ? strip_tags($user['bio']) : ''; ?></textarea>
           </div>
         </div>
         <div class="mb-2 row">
@@ -182,6 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
         <?php endfor; ?>
         <button class="btn btn-outline-light rounded w-100 fw-bold mt-3" type="submit">Update Profile</button>
+        <button class="btn btn-danger rounded w-100 fw-bold mt-2" type="submit" name="delete_account" onclick="return confirm('Are you sure you want to delete your account?')">Delete Account</button>
       </form>
     </div>
     <?php include('../bootstrapjs.php'); ?>
