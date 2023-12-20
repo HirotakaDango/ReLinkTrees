@@ -14,45 +14,50 @@ $db->exec('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TE
   </head>
   <body>
     <div class="vh-100 position-fixed top-0 start-0 w-100 h-100" style="background-image: url('/contents/background.jpg'); background-size: cover; background-repeat: no-repeat;">
-      <div id="login-form" class="container position-absolute start-50 top-50 translate-middle bg-dark rounded-5 p-3 bg-opacity-50" style="max-width: 315px;">
-        <h1 class="fw-bold text-center mb-5 mt-3">Login</h1>
-        <div class="modal-body p-4 pt-0">
-          <form class="" action="session_code.php" method="post">
+      <div id="login-form" class="container position-absolute start-50 top-50 translate-middle bg-transparent rounded-5" style="max-width: 315px;">
+        <h1 class="fw-bold text-center text-shadow mt-3">Login</h1>
+        <div class="modal-body p-3">
+          <form class="p-0" action="session_code.php" method="post">
             <div class="form-floating mb-3">
-              <input name="email" type="email" class="form-control rounded-3 bg-dark bg-opacity-25" id="floatingInput" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="name@example.com" required>
+              <input name="email" type="email" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" id="floatingInput" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="name@example.com" required>
               <label class="fw-medium" for="floatingInput">Email address</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="password" type="password" class="form-control rounded-3 bg-dark bg-opacity-25" id="floatingPassword" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="Password" required>
+              <input name="password" type="password" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" id="floatingPassword" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="Password" required>
               <label class="fw-medium" for="floatingPassword">Password</label>
             </div>
             <button name="login" class="w-100 fw-bold mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Login</button>
-            <p>Don't have an account? <a href="#" onclick="showRegisterForm()">Register</a></p>
+            <h6 class="text-shadow">Don't have an account? <a href="#" onclick="showRegisterForm()">Register</a></h6>
           </form>
         </div>
       </div>
-      <div id="register-form" class="container position-absolute start-50 top-50 translate-middle bg-dark rounded-5 p-3 bg-opacity-50" style="max-width: 315px; display: none;">
-        <h1 class="fw-bold text-center mb-5 mt-3">Register</h1>
-        <div class="modal-body p-4 pt-0">
-          <form class="" action="session_code.php" method="post">
+      <div id="register-form" class="container position-absolute start-50 top-50 translate-middle bg-transparent rounded-5" style="max-width: 315px; display: none;">
+        <h1 class="fw-bold text-center text-shadow mt-3">Register</h1>
+        <div class="modal-body p-3">
+          <form class="p-0" action="session_code.php" method="post">
              <div class="form-floating mb-3">
-              <input name="username" type="text" class="form-control rounded-3 bg-dark bg-opacity-25" maxlength="40" id="floatingInput" placeholder="Username" required>
+              <input name="username" type="text" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" maxlength="40" id="floatingInput" placeholder="Username" required>
               <label class="fw-medium" for="floatingInput">Username</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="email" type="email" class="form-control rounded-3 bg-dark bg-opacity-25" id="floatingInput" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="name@example.com" required>
+              <input name="email" type="email" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" id="floatingInput" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="name@example.com" required>
               <label class="fw-medium" for="floatingInput">Email address</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="password" type="password" class="form-control rounded-3 bg-dark bg-opacity-25" id="floatingPassword" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="Password" required>
+              <input name="password" type="password" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" id="floatingPassword" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="Password" required>
               <label class="fw-medium" for="floatingPassword">Password</label>
             </div>
             <button name="register" class="w-100 fw-bold mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Register</button>
-            <p>Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+            <h6 class="text-shadow">Already have an account? <a href="#" onclick="showLoginForm()">Login</a></h6>
           </form>
         </div>
       </div>
-    </div>
+    <style>
+      .text-shadow {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6), 2px 2px 4px rgba(0, 0, 0, 0.8), 5px 5px 6px rgba(0, 0, 0, 0.2);
+      }
+    </style>    </div>
+
     <script>
       function showLoginForm() {
         document.getElementById('login-form').style.display = 'block';
