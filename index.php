@@ -9,6 +9,12 @@ $db->exec('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TE
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ReLinkTrees - Login/Register</title>
+    <meta property="og:image" content="/contents/favicon.svg"/>
+    <meta property="og:title" content="ReLinkTrees"/>
+    <meta property="og:description" content="Create Your Own Profile"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST']; ?>">
+    <title><?php echo $user['username']; ?>'s Profile</title>
     <?php include('bootstrapcss.php'); ?>
     <link rel="icon" type="image/png" href="contents/favicon.svg">
   </head>
@@ -19,11 +25,11 @@ $db->exec('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TE
         <div class="modal-body p-3">
           <form class="p-0" action="session_code.php" method="post">
             <div class="form-floating mb-3">
-              <input name="email" type="email" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" id="floatingInput" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="name@example.com" required>
+              <input name="email" type="email" class="form-control rounded-3 shadow bg-dark bg-opacity-50 border-0" id="floatingInput" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="name@example.com" required>
               <label class="fw-medium" for="floatingInput">Email address</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="password" type="password" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" id="floatingPassword" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="Password" required>
+              <input name="password" type="password" class="form-control rounded-3 shadow bg-dark bg-opacity-50 border-0" id="floatingPassword" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="Password" required>
               <label class="fw-medium" for="floatingPassword">Password</label>
             </div>
             <button name="login" class="w-100 fw-bold mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Login</button>
@@ -36,15 +42,15 @@ $db->exec('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TE
         <div class="modal-body p-3">
           <form class="p-0" action="session_code.php" method="post">
              <div class="form-floating mb-3">
-              <input name="username" type="text" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" maxlength="40" id="floatingInput" placeholder="Username" required>
+              <input name="username" type="text" class="form-control rounded-3 shadow bg-dark bg-opacity-50 border-0" maxlength="40" id="floatingInput" placeholder="Username" required>
               <label class="fw-medium" for="floatingInput">Username</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="email" type="email" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" id="floatingInput" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="name@example.com" required>
+              <input name="email" type="email" class="form-control rounded-3 shadow bg-dark bg-opacity-50 border-0" id="floatingInput" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="name@example.com" required>
               <label class="fw-medium" for="floatingInput">Email address</label>
             </div>
             <div class="form-floating mb-3">
-              <input name="password" type="password" class="form-control rounded-3 shadow bg-dark bg-opacity-75 border-0" id="floatingPassword" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="Password" required>
+              <input name="password" type="password" class="form-control rounded-3 shadow bg-dark bg-opacity-50 border-0" id="floatingPassword" maxlength="40" pattern="^[a-zA-Z0-9_@.-]+$" placeholder="Password" required>
               <label class="fw-medium" for="floatingPassword">Password</label>
             </div>
             <button name="register" class="w-100 fw-bold mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Register</button>

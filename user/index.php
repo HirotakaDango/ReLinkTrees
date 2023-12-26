@@ -1,40 +1,44 @@
 <?php
-// Get the user ID from the URL parameter
-$userID = isset($_GET['id']) ? $_GET['id'] : null;
+// Get the requested path
+$requestPath = trim($_SERVER['REQUEST_URI'], '/');
+$parts = explode('/', $requestPath);
 
-// Check if the user ID is provided
-if (!$userID) {
-  // Handle the case where no user ID is provided, redirect to ../index.php
-  header("Location:../index.php");
+// Check if the URL matches the expected pattern (user/id)
+if (count($parts) == 2 && $parts[0] == 'user') {
+  $userID = $parts[1];
+
+  // SQLite database file path
+  $databasePath = '../database-03fdhgh732fhdff23fhdhd492/database';
+
+  try {
+    // Create a new PDO database connection
+    $pdo = new PDO("sqlite:$databasePath");
+
+    // Set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Query to select user data based on the provided user ID
+    $query = "SELECT * FROM users WHERE id = :id";
+
+    // Prepare and execute the query
+    $statement = $pdo->prepare($query);
+    $statement->bindParam(':id', $userID);
+    $statement->execute();
+
+    // Fetch the user data as an associative array
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+    // Close the database connection
+    $pdo = null;
+
+  } catch (PDOException $e) {
+    // Display an error message if the connection or query fails
+    die("Error: " . $e->getMessage());
+  }
+} else {
+  // Redirect to the default page if the URL doesn't match the expected pattern
+  header("Location: ../index.php");
   exit();
-}
-
-// SQLite database file path
-$databasePath = '../database-03fdhgh732fhdff23fhdhd492/database';
-
-try {
-  // Create a new PDO database connection
-  $pdo = new PDO("sqlite:$databasePath");
-
-  // Set the PDO error mode to exception
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-  // Query to select user data based on the provided user ID
-  $query = "SELECT * FROM users WHERE id = :id";
-
-  // Prepare and execute the query
-  $statement = $pdo->prepare($query);
-  $statement->bindParam(':id', $userID);
-  $statement->execute();
-
-  // Fetch the user data as an associative array
-  $user = $statement->fetch(PDO::FETCH_ASSOC);
-
-  // Close the database connection
-  $pdo = null;
-} catch (PDOException $e) {
-  // Display an error message if the connection or query fails
-  die("Error: " . $e->getMessage());
 }
 ?>
 

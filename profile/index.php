@@ -202,7 +202,7 @@ try {
     <script>
       function shareArtist(userId, username) {
         // Compose the share URL
-        var shareUrl = '../user/?id=' + userId;
+        var shareUrl = '../user/' + userId;
 
         // Check if the Share API is supported by the browser
         if (navigator.share) {
