@@ -88,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     bio = :bio,
     born = :born,
     region = :region,
+    password = :password,
     username = :username
     WHERE email = :email
   ');
@@ -106,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ':bio' => nl2br($_POST['bio']),
     ':born' => $_POST['born'],
     ':region' => $_POST['region'],
+    'password' => $_POST['password'],
     ':username' => $_POST['username'],
     ':email' => $_SESSION['email']
   ]);
